@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Post Donation{% endblock %}
+{% block content %}
+<h1>Post a Food Donation</h1>
+<form method="post" class="card form">
+  <label>Donor
+    <select name="donor_id" required>
+      <option value="">-- select donor --</option>
+      {% for d in donors %}
+        <option value="{{ d.donor_id }}" {{ 'selected' if form.get('donor_id')==d.donor_id|string }}>
+          {{ d.donor_name }} ({{ d.donor_type.replace('_',' ').title() }})
+        </option>
+      {% endfor %}
+    </select>
+    <small><a href="{{ url_for('donor_register') }}">Not listed? Register as donor</a></small>
+  </label>
+  <label>Pickup location
+    <input name="pickup_location" value="{{ form.get('pickup_location','') }}" required>
+  </label>
+
+  <h3>Food items <small class="muted">(fill at least one row)</small></h3>
+  <table>
+    <tr><th>Food</th><th>Category</th><th>Qty</th><th>Unit</th><th>Expires at</th></tr>
+    {% for i in range(3) %}
+    <tr>
+      <td><input name="food_name" value="{{ form.getlist('food_name')[i] if form.getlist('food_name')|length > i else '' }}"></td>
+      <td>
+        <select name="category_id">
+          {% for c in cats %}<option value="{{ c.category_id }}">{{ c.category_name }}</option>{% endfor %}
+        </select>
+      </td>
+      <td><input name="quantity" type="number" step="0.1" min="0" value="{{ form.getlist('quantity')[i] if form.getlist('quantity')|length > i else '' }}" style="width:80px"></td>
+      <td>
+        <select name="unit">{% for u in units %}<option>{{ u }}</option>{% endfor %}</select>
+      </td>
+      <td><input name="expiry_time" type="datetime-local" value="{{ form.getlist('expiry_time')[i] if form.getlist('expiry_time')|length > i else '' }}"></td>
+    </tr>
+    {% endfor %}
+  </table>
+  <button class="btn">Post donation</button>
+</form>
+{% endblock %}

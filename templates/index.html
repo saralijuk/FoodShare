@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Food Waste Management &amp; Donation System</h1>
+<p class="muted">Connecting surplus food donors with NGOs — from registration to distribution.</p>
+
+<div class="stats">
+  {% for label, value in stats.items() %}
+    <div class="stat"><div class="num">{{ value }}</div><div>{{ label }}</div></div>
+  {% endfor %}
+</div>
+
+<h2>How it works</h2>
+<div class="steps">
+  <a class="step" href="{{ url_for('donor_register') }}"><b>1. Register</b><span>Donor creates a profile</span></a>
+  <a class="step" href="{{ url_for('donate') }}"><b>2. Post food</b><span>Items, quantity, expiry</span></a>
+  <a class="step" href="{{ url_for('available') }}"><b>3. NGO accepts</b><span>Assigns a volunteer</span></a>
+  <a class="step" href="{{ url_for('pickups') }}"><b>4. Pickup</b><span>Volunteer collects food</span></a>
+  <a class="step" href="{{ url_for('track') }}"><b>5. Distribute</b><span>People served recorded</span></a>
+</div>
+{% endblock %}

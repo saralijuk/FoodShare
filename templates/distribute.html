@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Record Distribution{% endblock %}
+{% block content %}
+<h1>Record Distribution</h1>
+<div class="card">Pickup #{{ pk.pickup_id }} · Donation #{{ pk.donation_id }} · NGO: <b>{{ pk.ngo_name }}</b> · Status: <b>{{ pk.stage }}</b></div>
+<form method="post" class="card form">
+  <label>Area where food was distributed
+    <input name="area" required>
+  </label>
+  <label>Number of people served
+    <input type="number" name="people_served" min="1" required>
+  </label>
+  <button class="btn">Save distribution</button>
+</form>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Register Donor{% endblock %}
+{% block content %}
+<h1>Register as a Donor</h1>
+<form method="post" class="card form">
+  <label>Name
+    <input name="donor_name" value="{{ f.get('donor_name','') }}" required>
+  </label>
+  <label>Donor type
+    <select name="donor_type" id="donor_type" onchange="toggleFssai()">
+      {% for t in types %}
+        <option value="{{ t }}" {{ 'selected' if f.get('donor_type')==t }}>{{ t.replace('_',' ').title() }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Phone (10 digits)
+    <input name="phone" value="{{ f.get('phone','') }}" maxlength="10" pattern="[0-9]{10}" required>
+  </label>
+  <label>Email
+    <input type="email" name="email" value="{{ f.get('email','') }}" required>
+  </label>
+  <label>Address
+    <input name="address" value="{{ f.get('address','') }}">
+  </label>
+  <label>City
+    <input name="city" value="{{ f.get('city','') }}" required>
+  </label>
+  <label id="fssai_box">FSSAI number (restaurants only)
+    <input name="fssai_no" value="{{ f.get('fssai_no','') }}">
+  </label>
+  <button class="btn">Register</button>
+</form>
+<script>
+  function toggleFssai() {
+    document.getElementById('fssai_box').style.display =
+      document.getElementById('donor_type').value === 'RESTAURANT' ? 'block' : 'none';
+  }
+  toggleFssai();
+</script>
+{% endblock %}

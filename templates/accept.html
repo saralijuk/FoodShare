@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Accept Donation{% endblock %}
+{% block content %}
+<h1>Accept Donation #{{ d.donation_id }}</h1>
+<div class="card">
+  From <b>{{ d.donor_name }}</b> · Pickup at {{ d.pickup_location }}<br>
+  Earliest expiry: <b>{{ d.earliest_expiry|fmt }}</b> ({{ time_left(d.earliest_expiry) }} left) · Status: <b>{{ d.status|label }}</b>
+</div>
+<form method="post" class="card form">
+  <label>NGO
+    <select name="ngo_id" required>
+      <option value="">-- select NGO --</option>
+      {% for n in ngos %}<option value="{{ n.ngo_id }}">{{ n.name }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Volunteer (must belong to the NGO)
+    <select name="volunteer_id" required>
+      <option value="">-- select volunteer --</option>
+      {% for v in vols %}<option value="{{ v.volunteer_id }}">{{ v.name }} — {{ v.ngo_name }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Scheduled pickup time
+    <input type="datetime-local" name="scheduled_time" required>
+  </label>
+  <button class="btn">Confirm pickup</button>
+</form>
+{% endblock %}

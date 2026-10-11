@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Tracking{% endblock %}
+{% block content %}
+<h1>Donation Tracking</h1>
+<p class="muted">Every donation from registration to distribution.</p>
+<table class="card">
+  <tr><th>#</th><th>Donor</th><th>Posted</th><th>Status</th><th>NGO</th><th>Volunteer</th><th>Picked up</th><th>Area</th><th>People served</th></tr>
+  {% for r in rows %}
+  <tr>
+    <td>{{ r.donation_id }}</td>
+    <td>{{ r.donor_name }}</td>
+    <td>{{ r.posted_at|fmt }}</td>
+    <td><span class="tag {{ r.status|cls }}">{{ r.status|label }}</span></td>
+    <td>{{ r.ngo_name or '-' }}</td>
+    <td>{{ r.volunteer_name or '-' }}</td>
+    <td>{{ r.picked_time|fmt }}</td>
+    <td>{{ r.area or '-' }}</td>
+    <td>{{ r.people_served or '-' }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="9" class="muted">No donations yet.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

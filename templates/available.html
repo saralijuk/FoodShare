@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Available Food{% endblock %}
+{% block content %}
+<h1>Available Donations</h1>
+<p class="muted">Expired and already-accepted donations are hidden automatically.</p>
+
+{% if not donations %}
+  <div class="card">No food available right now. <a href="{{ url_for('donate') }}">Post a donation</a></div>
+{% endif %}
+
+{% for d in donations %}
+<div class="card">
+  <div class="row">
+    <div>
+      <h3>Donation #{{ d.donation_id }} — {{ d.donor_name }}</h3>
+      <div class="muted">{{ d.donor_type.replace('_',' ').title() }} · {{ d.city }} · Pickup at {{ d.pickup_location }}</div>
+    </div>
+    <div class="badge">⏳ {{ time_left(d.earliest_expiry) }} left</div>
+  </div>
+  <ul>
+    {% for it in items.get(d.donation_id, []) %}
+      <li>{{ it.food_name }} — {{ it.quantity }} {{ it.unit }} <span class="muted">({{ it.category_name }})</span></li>
+    {% endfor %}
+  </ul>
+  <a class="btn" href="{{ url_for('accept', donation_id=d.donation_id) }}">Accept donation</a>
+</div>
+{% endfor %}
+{% endblock %}

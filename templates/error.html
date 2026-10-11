@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Database error</h1>
+<div class="card">
+  <p>The app could not complete the database operation. Usual causes: wrong .env settings, Oracle not running, or a table/column name that differs from the code.</p>
+  <pre>{{ message }}</pre>
+</div>
+{% endblock %}

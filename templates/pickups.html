@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Pickups{% endblock %}
+{% block content %}
+<h1>Pickups</h1>
+<table class="card">
+  <tr><th>#</th><th>Donation</th><th>Donor</th><th>NGO</th><th>Volunteer</th><th>Scheduled</th><th>Status</th><th>Action</th></tr>
+  {% for r in rows %}
+  <tr>
+    <td>{{ r.pickup_id }}</td>
+    <td>#{{ r.donation_id }}</td>
+    <td>{{ r.donor_name }}</td>
+    <td>{{ r.ngo_name }}</td>
+    <td>{{ r.volunteer_name }}</td>
+    <td>{{ r.scheduled_time|fmt }}</td>
+    <td><span class="tag {{ r.stage|cls }}">{{ r.stage }}</span></td>
+    <td>
+      {% if r.stage == 'Scheduled' %}
+        <form method="post" action="{{ url_for('mark_picked', pickup_id=r.pickup_id) }}">
+          <button class="btn small">Mark picked up</button>
+        </form>
+      {% elif r.stage == 'Picked Up' %}
+        <a class="btn small" href="{{ url_for('distribute', pickup_id=r.pickup_id) }}">Record distribution</a>
+      {% else %}—{% endif %}
+    </td>
+  </tr>
+  {% else %}
+  <tr><td colspan="8" class="muted">No pickups yet.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}
